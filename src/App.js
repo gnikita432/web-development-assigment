@@ -1,37 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import Posts from './components/Posts';
-import Pagination from './components/Pagination';
-import axios from 'axios';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Posts from "./components/Posts";
+import Pagination from "./components/Pagination";
+import "./App.css";
+import mockdata from "./MOCK_DATA.json";
 
 const App = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(mockdata);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-      setPosts(res.data);
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, []);
+  const [postsPerPage] = useState(4);
 
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
+  // const [users, setUsers] = useState(mockdata.slice(0, 10));
+
   // Change page
-  const paginate = pageNumber => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className='container mt-5'>
-      <h1 className='text-primary mb-3'>My Blog</h1>
+    <div className="container mt-5">
+      <h1 className="headline">
+        Task: Build a React app which shows components with pagination
+      </h1>
       <Posts posts={currentPosts} loading={loading} />
       <Pagination
         postsPerPage={postsPerPage}
